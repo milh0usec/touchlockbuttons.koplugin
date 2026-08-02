@@ -1,0 +1,52 @@
+name: Publish tagged release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Install validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lua5.1 zip
+
+      - name: Validate tag and source version
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag_version="${GITHUB_REF_NAME#v}"
+          file_version="$(tr -d '[:space:]' < VERSION)"
+          test "$tag_version" = "$file_version" || {
+            echo "Tag version $tag_version does not match VERSION $file_version" >&2
+            exit 1
+          }
+          sh ./scripts/validate.sh
+
+      - name: Build release package
+        run: sh ./scripts/package.sh "${GITHUB_REF_NAME#v}"
+
+      - name: Create GitHub release and upload assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          prerelease=()
+          if [[ "$GITHUB_REF_NAME" == v0.* ]]; then
+            prerelease=(--prerelease)
+          fi
+          gh release create "$GITHUB_REF_NAME" \
+            dist/* \
+            --title "TouchLockButtons $GITHUB_REF_NAME" \
+            --generate-notes \
+            "${prerelease[@]}"
