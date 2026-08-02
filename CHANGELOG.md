@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The project follows Semantic Versioning while it remains feasible for the KOReader plugin API.
 
-## [0.1.0] - 2026-08-01
+## [0.1.2] - 2026-08-01
 
 ### Added
 
