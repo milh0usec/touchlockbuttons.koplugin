@@ -1,0 +1,29 @@
+name: Feature request
+description: Propose a focused improvement
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Describe the concrete usability or compatibility problem.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Target device and firmware
+    validations:
+      required: true
+  - type: textarea
+    id: recovery
+    attributes:
+      label: Recovery implications
+      description: Explain how users can recover if touch or the Power button becomes unavailable.

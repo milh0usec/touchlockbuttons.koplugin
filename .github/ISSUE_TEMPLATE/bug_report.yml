@@ -1,0 +1,76 @@
+name: Bug report
+description: Report a reproducible plugin or PW4 controller problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Remove personal book data from logs before posting.
+  - type: input
+    id: device
+    attributes:
+      label: Kindle model
+      placeholder: Kindle Paperwhite 4 (10th generation)
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: Kindle firmware
+      placeholder: 5.14.2
+    validations:
+      required: true
+  - type: input
+    id: koreader
+    attributes:
+      label: KOReader version
+      placeholder: 2026.07.1
+    validations:
+      required: true
+  - type: dropdown
+    id: controller
+    attributes:
+      label: Physical Power controller
+      options:
+        - Enabled
+        - Disabled
+        - Could not start
+    validations:
+      required: true
+  - type: dropdown
+    id: latency
+    attributes:
+      label: Click latency
+      options:
+        - 200 ms
+        - 250 ms
+        - 300 ms
+        - Not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact actions and timing.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Relevant controller log
+      description: Paste relevant lines from /tmp/touchlockbuttons-power.log.
+      render: text

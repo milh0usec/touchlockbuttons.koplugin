@@ -1,0 +1,9 @@
+Font Awesome 4.7.0 icon outlines
+
+Icons used: lock, unlock, toggle-off, toggle-on, moon-o.
+Copyright Dave Gandy.
+License: SIL Open Font License 1.1.
+
+The plugin bundles converted SVG outlines, not Font Awesome font files.
+The complete license text is available at ../LICENSES/OFL-1.1.txt in the
+repository and release package.

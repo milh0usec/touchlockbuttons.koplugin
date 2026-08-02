@@ -1,0 +1,35 @@
+name: Validate and package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lua5.1 zip
+
+      - name: Validate source
+        run: ./scripts/validate.sh
+
+      - name: Build installable package
+        run: ./scripts/package.sh
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: touchlockbuttons-package
+          path: dist/*
+          if-no-files-found: error
