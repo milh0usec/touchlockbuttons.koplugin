@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install validation tools
         run: |
@@ -22,13 +22,13 @@ jobs:
           sudo apt-get install --yes lua5.1 zip
 
       - name: Validate source
-        run: ./scripts/validate.sh
+        run: sh ./scripts/validate.sh
 
       - name: Build installable package
-        run: ./scripts/package.sh
+        run: sh ./scripts/package.sh
 
       - name: Upload package artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: touchlockbuttons-package
           path: dist/*

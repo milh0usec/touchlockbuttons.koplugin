@@ -74,6 +74,10 @@ import sys
 import xml.etree.ElementTree as ET
 
 root = Path('.')
+ignored_dirs = {'.git', 'dist', 'tmp'}
+text_suffixes = {'.lua', '.sh', '.svg', '.md', '.txt', '.yml', '.yaml'}
+text_names = {'VERSION', 'LICENSE', '.editorconfig', '.gitattributes', '.gitignore'}
+
 for path in sorted((root / 'icons').glob('*.svg')):
     try:
         tree = ET.parse(path)
@@ -84,13 +88,18 @@ for path in sorted((root / 'icons').glob('*.svg')):
         raise SystemExit(f'Unexpected root element in {path}: {tag}')
 
 for path in root.rglob('*'):
-    if path.is_file() and path.suffix.lower() in {'.lua', '.sh', '.svg', '.md', '.txt', ''}:
+    if any(part in ignored_dirs for part in path.parts):
+        continue
+    if path.is_file() and (path.suffix.lower() in text_suffixes or path.name in text_names):
         data = path.read_bytes()
         if b'\r\n' in data:
             raise SystemExit(f'CRLF line endings found: {path}')
 
 for forbidden in ['.DS_Store', 'Thumbs.db']:
-    if any(p.name == forbidden for p in root.rglob('*')):
+    if any(
+        path.name == forbidden and not any(part in ignored_dirs for part in path.parts)
+        for path in root.rglob('*')
+    ):
         raise SystemExit(f'Forbidden generated file found: {forbidden}')
 PY
 

@@ -13,7 +13,7 @@ case "$VERSION" in
         ;;
 esac
 
-./scripts/validate.sh
+sh ./scripts/validate.sh
 
 DIST="$ROOT/dist"
 STAGE=$(mktemp -d "${TMPDIR:-/tmp}/touchlockbuttons.XXXXXX")
